@@ -26,7 +26,7 @@ rbtree.o: rbtree.c rbtree.h
 	gcc -c rbtree.c 
 
 integer.o: integer.c integer.h
-	gcc ic integer.c
+	gcc -c integer.c
 
 clean: 
 	rm -f *.o main

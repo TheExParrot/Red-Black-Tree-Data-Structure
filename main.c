@@ -35,6 +35,8 @@ main(int argc, char *argv[]) {
     print_in_order(tree.root, int_print);
     printf("\n");
 
+    // free memory
+    deleteTree(tree.root);
 
     return 0;
 }

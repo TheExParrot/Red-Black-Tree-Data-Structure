@@ -343,3 +343,27 @@ void print_in_order(node_t *node, void (*print)(const void *)) {
     print_in_order(node->right, print);
 
 }
+
+
+/* function to delete tree*/
+void deleteTree(tree_t *tree) {
+    // delete root and then set tree to null after recursion
+    deleteNode(tree->root);
+    tree->root = NULL;
+}
+
+
+/* function to delete the tree by freeing the memory */
+void deleteNode(node_t *node) {
+
+    // check if null
+    if (node == NULL) {
+        return;
+    }
+    
+    // post order traversal
+    deleteNode(node->left);
+    deleteNode(node->right);
+    free(node);
+
+}

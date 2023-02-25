@@ -44,5 +44,8 @@ int delete(tree_t *tree, void *key, int (*cmp)(const void *, const void *));
 void replaceNode(tree_t *tree, node_t *trgt, node_t *src);
 node_t *minimum(node_t *node);
 
+// memory free functions
+void deleteTree(tree_t *tree);
+void deleteNode(node_t *node);
 
 #endif
