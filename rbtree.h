@@ -29,7 +29,7 @@ void correctTree(tree_t *tree, node_t *node);
 void rotateLeft(tree_t *tree, node_t *node);
 void rotateRight(tree_t *tree, node_t *node);
 node_t *search(tree_t *tree, int key);
-void delete(tree_t *tree, int key);
+void deleteKey(tree_t *tree, int key);
 void printInorder(node_t *node);
 
 
