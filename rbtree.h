@@ -9,6 +9,8 @@ By Jack Perry
 // Magic Numbers
 #define RED 0
 #define BLACK 1
+
+#define FALSE 0
 #define TRUE 1
 
 // Struct Definitions
@@ -31,8 +33,8 @@ void rotateLeft(tree_t *tree, node_t *node);
 void rotateRight(tree_t *tree, node_t *node);
 void swapColour(node_t *n1, node_t *n2);
 node_t *search(tree_t *tree, void *key, int (*cmp)(const void *, const void *));
-void delete(tree_t *tree, void *key, int (*cmp)(const void *, const void *));
-void printInorder(node_t *node, void (*print)(const void *));
+int delete(tree_t *tree, void *key, int (*cmp)(const void *, const void *));
+void print_in_order(node_t *node, void (*print)(const void *));
 
 
 #endif

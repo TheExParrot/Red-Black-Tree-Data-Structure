@@ -226,17 +226,40 @@ void swapColour(node_t *n1, node_t *n2) {
 /* function that find a specific node of a key in the tree*/
 node_t *search(tree_t *tree, void *key, int (*cmp)(const void *, const void *)) {
 
+    // use standard b-tree search algorithm
+    node_t *current = tree->root;
+
+    while (current != NULL) {
+        // compare key's with cmp function pointer
+        int comparison_result = cmp(key, current->key);
+
+        // if keys match, return the current node
+        if (comparison_result == 0) {
+            return current;
+
+        // if key is smaller, search left subtree
+        } else if (comparison_result < 0) {
+            current = current->left;
+
+        // if key is greater, search right subtree
+        } else {
+            current = current->right;
+        }
+    }
+
+    // if key not found, return NULL
+    return NULL;
 }
 
 
 /* function that deletes a specific key from the tree */
-void delete(tree_t *tree, void *key, int (*cmp)(const void *, const void *)) {
-
+int delete(tree_t *tree, void *key, int (*cmp)(const void *, const void *)) {
+    
 }
 
 
 /* function that prints the tree in order*/
-void printInorder(node_t *node, void (*print)(const void *)) { 
+void print_in_order(node_t *node, void (*print)(const void *)) { 
 
     // check if null
     if (node == NULL) {
@@ -244,8 +267,8 @@ void printInorder(node_t *node, void (*print)(const void *)) {
     }
 
     // recursive in order printing
-    printInorder(node->left, print);
+    print_in_order(node->left, print);
     print(node->key);
-    printInorder(node->right, print);
+    print_in_order(node->right, print);
 
 }

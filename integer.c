@@ -21,6 +21,8 @@ int int_cmp(const void *v1, const void *v2) {
 
 
 void int_print(const void *v) {
-    int p = *(int *)v;
-    printf("%d ", p);
+    if (v != NULL) {
+        int p = *(int *)v;
+        printf("%d ", p);
+    }
 }
