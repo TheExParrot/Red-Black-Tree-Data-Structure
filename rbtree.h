@@ -29,6 +29,7 @@ void insert(tree_t *tree, void *key, int (*cmp)(const void *, const void *));
 void correctTree(tree_t *tree, node_t *node);
 void rotateLeft(tree_t *tree, node_t *node);
 void rotateRight(tree_t *tree, node_t *node);
+void swapColour(node_t *n1, node_t *n2);
 node_t *search(tree_t *tree, void *key, int (*cmp)(const void *, const void *));
 void delete(tree_t *tree, void *key, int (*cmp)(const void *, const void *));
 void printInorder(node_t *node, void (*print)(const void *));

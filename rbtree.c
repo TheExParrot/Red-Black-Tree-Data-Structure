@@ -55,7 +55,7 @@ void insert(tree_t *tree, void *key, int (*cmp)(const void *, const void *)) {
             } else {
                 current = current->left;
             }
-            
+
         // key is greater than current node's key
         } else if (comparison_result > 0) {  
             // if it is empty, put the new node there and break
@@ -84,15 +84,142 @@ void insert(tree_t *tree, void *key, int (*cmp)(const void *, const void *)) {
    tree by ensuring the tree rule is kept true */
 void correctTree(tree_t *tree, node_t *node) {
 
+    // create some pointers to use later
+    node_t *parent = NULL;
+    node_t *grandparent = NULL;
+    node_t *uncle = NULL;
+
+    // check condition in while loop
+    while ((node != tree->root) 
+            && (node->colour != BLACK) 
+            && (node->parent->colour == RED)) {
+
+        // set parents and grandparent
+        parent = node->parent;
+        grandparent = parent->parent;
+
+        // LEFT SIDE: Parent is on the left of grandparent cases
+        if (parent == grandparent->left) {
+            // uncle is on the right as parent is left
+            uncle = grandparent->right;
+
+            // Case 1: uncle is red
+            if (uncle != NULL && uncle->colour == RED) {
+                grandparent->colour = RED;
+                parent->colour = BLACK;
+                uncle->colour = BLACK;
+                node = grandparent;
+            } else {
+                // Case 2: additional left rotation to 
+                // make node into right child if left
+                if (node == parent->right) {
+                    rotateLeft(tree, parent);
+                    node = parent;
+                    parent = node->parent;
+                }
+
+                // Case 3: node is right child
+                rotateRight(tree, grandparent);
+                swapColour(parent, grandparent);
+                node = parent;
+
+            }
+        // RIGHT SIDE: Parent is on right side of grandparent
+        } else {
+            // uncle is on the left as parent is right
+            uncle = grandparent->left;
+
+            // Case 1: uncle is red
+            if (uncle != NULL && uncle->colour == RED) {
+                grandparent->colour = RED;
+                parent->colour = BLACK;
+                uncle->colour = BLACK;
+                node = grandparent;
+            } else {
+                // Case 2: additional right rotation to 
+                // make node into left child if right
+                if (node == parent->left) {
+                    rotateRight(tree, parent);
+                    node = parent;
+                    parent = node->parent;
+                }
+
+                // Case 3: node is left child
+                rotateLeft(tree, grandparent);
+                swapColour(parent, grandparent);
+                node = parent;
+
+            }
+        }
+    }
+    
+    // finish by setting root to black
+    tree->root->colour = BLACK;
+
 }
 
 
-/* rotation functions for specific nodes*/
-void rotateLeft(tree_t *tree, node_t *node) { 
+/* rotation functions at a source node*/
+void rotateLeft(tree_t *tree, node_t *node) {
+    node_t *right_child = node->right;
 
+    // make right child the new root
+    if (node == tree->root) {
+        tree->root = right_child;
+    }
+
+    // update parent pointers
+    right_child->parent = node->parent;
+    if (node->parent != NULL) {
+        if (node == node->parent->left) {
+            node->parent->left = right_child;
+        } else {
+            node->parent->right = right_child;
+        }
+    }
+
+    // update child pointers
+    node->right = right_child->left;
+    if (right_child->left != NULL) {
+        right_child->left->parent = node;
+    }
+    right_child->left = node;
+    node->parent = right_child;
 }
+
 void rotateRight(tree_t *tree, node_t *node) {
+    node_t *left_child = node->left;
 
+    // make left child the new root
+    if (node == tree->root) {
+        tree->root = left_child;
+    }
+
+    // update parent pointers
+    left_child->parent = node->parent;
+    if (node->parent != NULL) {
+        if (node == node->parent->left) {
+            node->parent->left = left_child;
+        } else {
+            node->parent->right = left_child;
+        }
+    }
+
+    // update child pointers
+    node->left = left_child->right;
+    if (left_child->right != NULL) {
+        left_child->right->parent = node;
+    }
+    left_child->right = node;
+    node->parent = left_child;
+}
+
+
+/* colour swapper */
+void swapColour(node_t *n1, node_t *n2) {
+    int tmp = n1->colour;
+    n1->colour = n2->colour;
+    n2->colour = tmp;
 }
 
 
@@ -103,7 +230,7 @@ node_t *search(tree_t *tree, void *key, int (*cmp)(const void *, const void *)) 
 
 
 /* function that deletes a specific key from the tree */
-void deleteKey(tree_t *tree, int key) {
+void delete(tree_t *tree, void *key, int (*cmp)(const void *, const void *)) {
 
 }
 
