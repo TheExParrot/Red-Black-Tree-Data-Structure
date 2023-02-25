@@ -9,12 +9,13 @@ By Jack Perry
 // Magic Numbers
 #define RED 0
 #define BLACK 1
+#define TRUE 1
 
 // Struct Definitions
 typedef struct node node_t;
 struct node {
-    int key;
-    int color;
+    void *key;
+    int colour;
     node_t *left, *right, *parent;
 };
 
@@ -23,14 +24,14 @@ typedef struct Tree {
 } tree_t;
 
 // Function Prototypes
-node_t *newNode(int key);
-void insert(tree_t *tree, int key);
+node_t *createNode(void *key);
+void insert(tree_t *tree, void *key, int (*cmp)(const void *, const void *));
 void correctTree(tree_t *tree, node_t *node);
 void rotateLeft(tree_t *tree, node_t *node);
 void rotateRight(tree_t *tree, node_t *node);
-node_t *search(tree_t *tree, int key);
-void deleteKey(tree_t *tree, int key);
-void printInorder(node_t *node);
+node_t *search(tree_t *tree, void *key, int (*cmp)(const void *, const void *));
+void delete(tree_t *tree, void *key, int (*cmp)(const void *, const void *));
+void printInorder(node_t *node, void (*print)(const void *));
 
 
 #endif
