@@ -37,6 +37,7 @@ void insert(tree_t *tree, void *key, int (*cmp)(const void *, const void *)) {
     if (tree->root == NULL) {
         new_node->colour = BLACK;
         tree->root = new_node;
+        return;
     }
 
     // use iterative BST approach to insert, starting with root as current
@@ -255,6 +256,76 @@ node_t *search(tree_t *tree, void *key, int (*cmp)(const void *, const void *)) 
 /* function that deletes a specific key from the tree */
 int delete(tree_t *tree, void *key, int (*cmp)(const void *, const void *)) {
     
+    // search for the node with the given key
+    node_t *node = search(tree, key, cmp);
+
+    // if node is not found, return FALSE
+    if (node == NULL) {
+        return FALSE;
+    }
+
+    // store the colour of the node to delete
+    int delete_node_colour = node->colour;
+
+    // if the node has has 0 or 1 children, delete and replace with child
+    if (node->left == NULL) {
+        replaceNode(tree, node, node->right);
+    } else if (node->right == NULL) {
+        replaceNode(tree, node, node->left);
+    } else {
+        // if the node has two children, find its successor and replace it
+        node_t *successor = minimum(node->right);
+
+        // get the successor's color before deleting it
+        int successor_color = successor->colour;
+
+        // if the successor is not a child of the node being deleted,
+        // replace it with its right child and update its parent
+        if (successor->parent != node) {
+            replaceNode(tree, successor, successor->right);
+            successor->right = node->right;
+            successor->right->parent = successor;
+        }
+
+        // replace the node being deleted with its successor and update its parent
+        replaceNode(tree, node, successor);
+        successor->left = node->left;
+        successor->left->parent = successor;
+        successor->colour = node->colour;
+        node = successor;
+        delete_node_colour = successor_color;
+    }
+
+    // if the node we deleted was black, we need to fix the tree
+    if (delete_node_colour == BLACK) {
+        correctTree(tree, node->parent);
+    }
+
+    // free the memory used by the node
+    free(node);
+}
+
+
+/* function that replaces the target with the source nodes */
+void replaceNode(tree_t *tree, node_t *trgt, node_t *src) {
+    if (trgt->parent == NULL) {
+        tree->root = src;
+    } else if (trgt == trgt->parent->left) {
+        trgt->parent->left = src;
+    } else {
+        trgt->parent->right = src;
+    }
+    if (src != NULL) {
+        src->parent = trgt->parent;
+    }
+}
+
+/* minimum function that moves the current node to the left (smaller) */
+node_t *minimum(node_t *node) {
+    while (node->left != NULL) {
+        node = node->left;
+    }
+    return node;
 }
 
 

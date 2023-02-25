@@ -26,15 +26,23 @@ typedef struct Tree {
 } tree_t;
 
 // Function Prototypes
+
+// insertion functions
 node_t *createNode(void *key);
 void insert(tree_t *tree, void *key, int (*cmp)(const void *, const void *));
 void correctTree(tree_t *tree, node_t *node);
 void rotateLeft(tree_t *tree, node_t *node);
 void rotateRight(tree_t *tree, node_t *node);
 void swapColour(node_t *n1, node_t *n2);
+
+// operations
 node_t *search(tree_t *tree, void *key, int (*cmp)(const void *, const void *));
-int delete(tree_t *tree, void *key, int (*cmp)(const void *, const void *));
 void print_in_order(node_t *node, void (*print)(const void *));
+
+// deletion functions
+int delete(tree_t *tree, void *key, int (*cmp)(const void *, const void *));
+void replaceNode(tree_t *tree, node_t *trgt, node_t *src);
+node_t *minimum(node_t *node);
 
 
 #endif

@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "stdlib.h": "c",
-        "integer.h": "c"
+        "integer.h": "c",
+        "rbtree.h": "c"
     }
 }
