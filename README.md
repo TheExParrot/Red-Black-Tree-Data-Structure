@@ -10,7 +10,3 @@ Operations include:
 - Deleting specific keys
 - Printing the entire tree in-order traversal
 - Post-order traversal for memory safe programming
-
-
-
-By Jack Perry
